@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!--Device Compatibility-->
+    <meta name="app-mobile-web-app-capable" content="yes" />
+    <meta name="app-mobile-web-app-status-bar-style" content="black" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!--Title of the App-->
+    <title>WatZThis</title>
+
+    <style>
+        body{
+            font-family:arial,helvetica;
+            text-align:center;
+        }
+
+        #container{
+        }
+
+         #flashlight, #danceparty{
+            margin:4px;
+            padding:40px;
+            border-bottom:1px solid chocolate;
+        }
+
+        ol{
+            display:inline-block;
+            margin:0 auto;
+            text-align:left;
+        }
+
+        .bigButton{
+            font-size:19px;
+            border-radius:6px;
+            background-color: chocolate;
+            color: black;
+            border: 2px solid #e7e7e7;      
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+        }
+
+        input {
+          background-color: #4CAF50;
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+        }
+    </style>
+
+    <script>
+        var light = new Array();
+        var t;
+        var color = 0;
+        var flipping = 0;
+        var speed;
+        light[0] = 'black';
+        light[1] = 'white';
+        light[2] = 'red';
+        light[3] = 'lime';
+        light[4] = 'tomato';
+        light[5] = 'hotpink';
+
+        function flip(whichway){
+            document.body.style.backgroundColor = light[whichway];
+            if(whichway=="0"){
+                document.body.style.color = "white";
+            }else{
+                document.body.style.color = "black";
+            }
+            stopFlip();
+        }
+
+        function autoFlip(){
+            document.body.style.backgroundColor = light[color];
+            
+            if(color < light.length - 1){
+                color++;
+            }else{
+                color=0;
+            }
+            t = setTimeout("autoFlip()", speed);
+        }
+
+        function doAutoFlip(changespeed){
+            if(!flipping){
+                flipping  = 1;
+                speed = changespeed;
+                autoFlip();
+            }
+        }
+
+        function stopFlip(){
+            clearTimeout(t);
+            flipping=0;
+            speed=0;
+            changespeed=0;
+        }
+
+        function decreaseSpeed(){
+            speed+=500;
+        }
+
+        function increaseSpeed(){
+            if(speed <= 500){
+                doAutoFlip(500);
+            }else{
+                speed-=500;
+            }    
+        
+        }
+
+       
+
+    </script>
+</head>
+<body>
+    <div id="container">
+
+        <h1>WatZThis?</h1>
+
+        <div id="flashlight">
+            <p>Use the buttons below to turn the flashlight on,off or red</p>
+            <input type="button" value="OFF" onclick="flip(0);">
+            <input type="button" value="ON" onclick="flip(1);">
+            <input type="button" value="RED" onclick="flip(2);">
+        </div>
+        <div id="danceparty">
+            <p>Use the below to turn on and off your automatic flashing colour light dance party and the speed of colour change. Max speed = 500ms.</p>
+            <input type="button" id="AUTO" class=bigButton value="AUTO" onclick="doAutoFlip(500);">
+            <input type="button" id="STOP" class=bigButton value="STOP" onclick="stopFlip();">
+            <input type="button" id="DECREASE" class=bigButton value="DECREASE" onclick="decreaseSpeed();">
+            <input type="button" id="INCREASE" class=bigButton value="INCREASE" onclick="increaseSpeed();">
+        </div>
+    </div>
+</body>
+</html>
